@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         Download Mods From Steam Page
-// @version      1.0.0
+// @name         Download Mod From Its Steam Page
+// @version      1.0.1
 // @author       НИНРИ (https://discord.gg/PSTM5gh)
 // @match        https://steamcommunity.com/sharedfiles/filedetails/*
 // @updateURL    https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/script.user.js
@@ -91,6 +91,7 @@ window.addEventListener('load', function () {
 GM_addStyle(`
 #downloadModButtonContainer {
     width: 100%;
+    height: 36px;
     display: inline-block;
 }
 
