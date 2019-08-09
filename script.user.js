@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Download Mod From Its Steam Page
-// @version      1.1.0
+// @version      1.1.1
 // @author       НИНРИ (https://discord.gg/PSTM5gh)
 // @match        https://steamcommunity.com/sharedfiles/filedetails/*
 // @updateURL    https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/script.user.js
@@ -11,21 +11,27 @@
 // @require      https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/libs/buffer.js
 // ==/UserScript==
 
+let modDownloaderLinkObject = undefined;
+let modDownloaderLinkUrl = undefined;
+const preventRepeatOfRequests = false;
+
 function downloadObjectAsJson(data, filename) {
     if (typeof data === "object") {
         data = JSON.stringify(data, null, 2)
     }
 
     var blob = new Blob([data], {
-            encoding: "UTF-8",
-            type: 'text/json;charset=UTF-8'
-        }),
-        a = document.createElement('a');
+        encoding: "UTF-8",
+        type: 'text/json;charset=UTF-8'
+    });
 
-    a.download = filename;
-    a.href = window.URL.createObjectURL(blob);
-    a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
-    a.dispatchEvent(new MouseEvent("click", {
+    if (modDownloaderLinkObject === undefined)
+        modDownloaderLinkObject = document.createElement('a');
+
+    modDownloaderLinkObject.download = filename;
+    modDownloaderLinkObject.href = window.URL.createObjectURL(blob);
+    modDownloaderLinkObject.dataset.downloadurl = ['text/json', modDownloaderLinkObject.download, modDownloaderLinkObject.href].join(':');
+    modDownloaderLinkObject.dispatchEvent(new MouseEvent("click", {
         bubbles: true,
         cancelable: false
     }));
@@ -40,6 +46,22 @@ function getCookie(name) {
 
 function downloadMod(appid, workshopid) {
     document.getElementById('downloadModButton').style.display = "none";
+
+    if (preventRepeatOfRequests) {
+        if (modDownloaderLinkObject !== undefined) {
+            modDownloaderLinkObject.dispatchEvent(new MouseEvent("click", {
+                bubbles: true,
+                cancelable: false
+            }));
+            document.getElementById('downloadModButton').style.display = "";
+            return;
+        } else if (modDownloaderLinkUrl !== undefined) {
+            window.location.href = steamObject["response"]["publishedfiledetails"][0]["file_url"];
+            document.getElementById('downloadModButton').style.display = "";
+            return;
+        }
+    }
+
     GM.xmlHttpRequest({
         method: "POST",
         url: "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/",
@@ -49,6 +71,7 @@ function downloadMod(appid, workshopid) {
         },
         onload: function (response) {
             let steamObject = JSON.parse(response.responseText);
+            modDownloaderLinkUrl = steamObject["response"]["publishedfiledetails"][0]["file_url"];
             if (appid == "286160") {
                 GM.xmlHttpRequest({
                     method: "GET",
