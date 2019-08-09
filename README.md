@@ -1,6 +1,3 @@
-# SteamBrowserModDownloader
-Tampermonkey userscript, download mod directly from its page. BSON to JSON browser conversion supported.
-
 1) Install Tampermonkey for your browser:
 
 - For Chrome - https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ru;
