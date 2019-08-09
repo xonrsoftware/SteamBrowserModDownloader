@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Download Mod From Its Steam Page
-// @version      1.0.1
+// @version      1.1.0
 // @author       НИНРИ (https://discord.gg/PSTM5gh)
 // @match        https://steamcommunity.com/sharedfiles/filedetails/*
 // @updateURL    https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/script.user.js
@@ -11,14 +11,24 @@
 // @require      https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/libs/buffer.js
 // ==/UserScript==
 
-function downloadObjectAsJson(exportObj, exportName) {
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj, null, 2));
-    var downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", exportName + ".json");
-    document.body.appendChild(downloadAnchorNode); // required for firefox
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
+function downloadObjectAsJson(data, filename) {
+    if (typeof data === "object") {
+        data = JSON.stringify(data, null, 2)
+    }
+
+    var blob = new Blob([data], {
+            encoding: "UTF-8",
+            type: 'text/json;charset=UTF-8'
+        }),
+        a = document.createElement('a');
+
+    a.download = filename;
+    a.href = window.URL.createObjectURL(blob);
+    a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+    a.dispatchEvent(new MouseEvent("click", {
+        bubbles: true,
+        cancelable: false
+    }));
 }
 
 function getCookie(name) {
@@ -46,7 +56,7 @@ function downloadMod(appid, workshopid) {
                     url: steamObject["response"]["publishedfiledetails"][0]["file_url"],
                     onload: function (response) {
                         let BufferVar = new buffer.Buffer(this.response);
-                        downloadObjectAsJson(BSON.deserialize(BufferVar), workshopid);
+                        downloadObjectAsJson(BSON.deserialize(BufferVar), workshopid + ".json");
                         document.getElementById('downloadModButton').style.display = "";
                     }
                 });
