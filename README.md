@@ -14,3 +14,11 @@ Tampermonkey userscript, download mod directly from its page. BSON to JSON brows
 2) Open link: https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/script.user.js and click "Install";
 
 4) Open any mod, ex. https://steamcommunity.com/sharedfiles/filedetails/?id=1393821479 and click "Download".
+
+Инструкция на русском языке, включая установку в Tabletop Simulator - 
+
+https://www.patreon.com/posts/skachivanie-iz-29030310
+
+Крупнейший русскоязычный Discord-сервер по Tabletop Simulator - 
+
+https://discord.gg/PSTM5gh  
