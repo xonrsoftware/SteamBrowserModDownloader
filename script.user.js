@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Download Mod From Its Steam Page
-// @version      1.1.1
+// @version      1.1.2
 // @author       НИНРИ (https://discord.gg/PSTM5gh)
 // @match        https://steamcommunity.com/sharedfiles/filedetails/*
 // @updateURL    https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/script.user.js
@@ -79,7 +79,9 @@ function downloadMod(appid, workshopid) {
                     url: steamObject["response"]["publishedfiledetails"][0]["file_url"],
                     onload: function (response) {
                         let BufferVar = new buffer.Buffer(this.response);
-                        downloadObjectAsJson(BSON.deserialize(BufferVar), workshopid + ".json");
+                        downloadObjectAsJson(JSON.parse(JSON.stringify(BSON.deserialize(BufferVar)), (k, v) => {
+                            return (v === null) ? undefined : v
+                        }), workshopid + ".json");
                         document.getElementById('downloadModButton').style.display = "";
                     }
                 });
