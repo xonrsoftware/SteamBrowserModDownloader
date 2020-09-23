@@ -1,12 +1,11 @@
 // ==UserScript==
 // @name         Download Mod From Its Steam Page
-// @version      1.1.2
+// @version      1.1.3
 // @author       НИНРИ (https://discord.gg/PSTM5gh)
 // @match        https://steamcommunity.com/sharedfiles/filedetails/*
 // @updateURL    https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/script.user.js
 // @downloadURL  https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/script.user.js
 // @grant        GM.xmlHttpRequest
-// @grant        GM_addStyle
 // @require      https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/libs/bson.bundle.js
 // @require      https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/libs/buffer.js
 // ==/UserScript==
@@ -122,19 +121,3 @@ window.addEventListener('load', function () {
         downloadMod(modDownloaderAppId, modDownloaderWorkshopId);
     }
 }, false);
-
-GM_addStyle(`
-#downloadModButtonContainer {
-    width: 100%;
-    height: 36px;
-    display: inline-block;
-}
-
-#downloadModButton {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    margin-right: 16px;
-    margin-bottom: 16px;
-}
-`);
