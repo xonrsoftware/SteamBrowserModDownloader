@@ -14,8 +14,44 @@ let modDownloaderLinkObject = undefined;
 let modDownloaderLinkUrl = undefined;
 const preventRepeatOfRequests = false;
 
+const
+    isNullish = x => [
+        //v => v === '',
+        v => v === null,
+        v => v === undefined,
+        //v => v && typeof v === 'object' && !Object.keys(v).length
+    ].some(f => f(x)),
+    getArray = array => {
+        var temp = array.reduce((r, v) => {
+                v = getNotNullish(v);
+                if (v !== undefined) r.push(v);
+                return r;
+            }, []);
+
+        return temp.length ? temp : undefined;
+    },
+    getObject = object => {
+        var hasValues = false,
+            temp = Object.entries(object).reduce((r, [k, v]) => {
+                v = getNotNullish(v);
+                if (v !== undefined) {
+                    r[k] = v;
+                    hasValues = true;
+                }
+                return r;
+            }, {});
+
+        return hasValues ? temp : undefined;
+    },
+    getNotNullish = value => {
+        if (Array.isArray(value)) return getArray(value);
+        if (value && typeof value === 'object') return getObject(value);
+        return isNullish(value) ? undefined : value;
+    };
+
 function downloadObjectAsJson(data, filename) {
     if (typeof data === "object") {
+        data = getNotNullish(data);
         data = JSON.stringify(data, null, 2)
     }
     data = data.replace(/function *null\(\)(.*?)end[\\r\\n\\r\\n]*/igm, ``);
