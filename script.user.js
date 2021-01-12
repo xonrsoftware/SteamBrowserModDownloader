@@ -18,7 +18,7 @@ function downloadObjectAsJson(data, filename) {
     if (typeof data === "object") {
         data = JSON.stringify(data, null, 2)
     }
-
+    data = data.replace(/function *null\(\)(.*?)end[\\r\\n\\r\\n]*/igm, ``);
     var blob = new Blob([data], {
         encoding: "UTF-8",
         type: 'text/json;charset=UTF-8'
@@ -78,8 +78,8 @@ function downloadMod(appid, workshopid) {
                     url: steamObject["response"]["publishedfiledetails"][0]["file_url"],
                     onload: function (response) {
                         let BufferVar = new buffer.Buffer(this.response);
-                        downloadObjectAsJson(JSON.parse(JSON.stringify(BSON.deserialize(BufferVar)), (k, v) => {
-                            return (v === null) ? undefined : v
+                        downloadObjectAsJson(JSON.parse(JSON.stringify(BSON.deserialize(BufferVar)), (key, value) => {
+                            if (value !== null && value !== undefined) return value
                         }), workshopid + ".json");
                         document.getElementById('downloadModButton').style.display = "";
                     }
