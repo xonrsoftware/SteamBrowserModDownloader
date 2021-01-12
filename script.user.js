@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Download Mod From Its Steam Page
-// @version      1.1.3
+// @version      1.1.4
 // @author       НИНРИ (https://discord.gg/PSTM5gh)
 // @match        https://steamcommunity.com/sharedfiles/filedetails/*
 // @updateURL    https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/script.user.js
