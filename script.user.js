@@ -115,7 +115,7 @@ function downloadMod(appid, workshopid) {
                     onload: function (response) {
                         let BufferVar = new buffer.Buffer(this.response);
                         downloadObjectAsJson(JSON.parse(JSON.stringify(BSON.deserialize(BufferVar)), (key, value) => {
-                            if (value !== null && value !== undefined) return value
+                            if (value !== null && value !== undefined) return value;
                         }), workshopid + ".json");
                         document.getElementById('downloadModButton').style.display = "";
                     }
