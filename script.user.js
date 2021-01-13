@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Download Mod From Its Steam Page
-// @version      1.1.4
+// @version      1.1.5
 // @author       НИНРИ (https://discord.gg/PSTM5gh)
 // @match        https://steamcommunity.com/sharedfiles/filedetails/*
 // @updateURL    https://github.com/xonrsoftware/SteamBrowserModDownloader/raw/master/script.user.js
@@ -54,7 +54,7 @@ function downloadObjectAsJson(data, filename) {
         data = getNotNullish(data);
         data = JSON.stringify(data, null, 2)
     }
-    data = data.replace(/function *null\(\)(.*?)end[\\r\\n\\r\\n]*/igm, ``);
+    //data = data.replace(/function *null\(\)(.*?)end[\\r\\n\\r\\n]*/igm, ``);
     var blob = new Blob([data], {
         encoding: "UTF-8",
         type: 'text/json;charset=UTF-8'
